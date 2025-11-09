@@ -1,12 +1,15 @@
 import * as THREE from 'three';
+import { Clouds } from './Clouds';
 
 export function Environment() {
   return (
     <>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -50, 0]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeGeometry args={[1000, 1000]} />
         <meshStandardMaterial color="#4a9b4f" side={THREE.DoubleSide} />
       </mesh>
+
+      <Clouds />
 
       <ambientLight intensity={0.6} />
       <directionalLight
