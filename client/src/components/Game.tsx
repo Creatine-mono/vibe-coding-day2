@@ -14,6 +14,7 @@ enum Controls {
   speedDown = 'speedDown',
   loop = 'loop',
   barrelRoll = 'barrelRoll',
+  reverse = 'reverse',
 }
 
 export function Game() {
@@ -65,30 +66,46 @@ export function Game() {
     if (controls.barrelRoll && maneuverStateRef.current.type === null) {
       maneuverStateRef.current = { type: 'barrelRoll', progress: 0 };
     }
+    if (controls.reverse && maneuverStateRef.current.type === null) {
+      maneuverStateRef.current = { type: 'reverse', progress: 0 };
+    }
 
     if (maneuverStateRef.current.type === 'loop') {
       const loopSpeed = 2.5;
       maneuverStateRef.current.progress += delta * loopSpeed;
-      
+
       const rotationStep = delta * loopSpeed * Math.PI * 2;
       const pitchAxis = new THREE.Vector3(1, 0, 0);
       pitchAxis.applyQuaternion(airplane.quaternion);
       const loopQuat = new THREE.Quaternion().setFromAxisAngle(pitchAxis, rotationStep);
       airplane.quaternion.multiply(loopQuat);
-      
+
       if (maneuverStateRef.current.progress >= 1) {
         maneuverStateRef.current = { type: null, progress: 0 };
       }
     } else if (maneuverStateRef.current.type === 'barrelRoll') {
       const rollSpeed = 3;
       maneuverStateRef.current.progress += delta * rollSpeed;
-      
+
       const rotationStep = delta * rollSpeed * Math.PI * 2;
       const rollAxis = new THREE.Vector3(0, 0, 1);
       rollAxis.applyQuaternion(airplane.quaternion);
       const rollQuat = new THREE.Quaternion().setFromAxisAngle(rollAxis, rotationStep);
       airplane.quaternion.multiply(rollQuat);
-      
+
+      if (maneuverStateRef.current.progress >= 1) {
+        maneuverStateRef.current = { type: null, progress: 0 };
+      }
+    } else if (maneuverStateRef.current.type === 'reverse') {
+      const reverseSpeed = 2;
+      maneuverStateRef.current.progress += delta * reverseSpeed;
+
+      // 180도 회전 (Y축 기준)
+      const rotationStep = delta * reverseSpeed * Math.PI;
+      const yawAxis = new THREE.Vector3(0, 1, 0);
+      const reverseQuat = new THREE.Quaternion().setFromAxisAngle(yawAxis, rotationStep);
+      airplane.quaternion.multiply(reverseQuat);
+
       if (maneuverStateRef.current.progress >= 1) {
         maneuverStateRef.current = { type: null, progress: 0 };
       }
