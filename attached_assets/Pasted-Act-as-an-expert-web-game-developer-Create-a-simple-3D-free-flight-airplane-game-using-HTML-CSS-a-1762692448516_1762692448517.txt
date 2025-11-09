@@ -1,0 +1,76 @@
+Act as an expert web game developer. Create a simple 3D free-flight airplane game using HTML, CSS, and JavaScript with the Three.js library.
+
+Here are the detailed requirements:
+
+**1. Project Goal:**
+- A cartoon-style 3D airplane game where the player can fly freely in an open sky.
+- There are no enemies, scores, or objectives. The focus is purely on the joy of flying.
+
+**2. Key Features:**
+- **3D Environment:** A simple and open world with a sky and a ground plane.
+- **Airplane:** A cartoon-style, low-poly airplane model created from basic geometric shapes.
+- **Controls:** The airplane is controlled using the keyboard's arrow keys.
+- **Camera:** The camera should follow the airplane from a third-person perspective.
+- **Technology Stack:** Use HTML, CSS, and JavaScript. For 3D rendering, use the Three.js library imported from a CDN.
+
+**3. Detailed Implementation Steps:**
+
+**File Structure:**
+- Create three files: `index.html`, `style.css`, and `script.js`.
+
+**`index.html`:**
+- Set up the basic HTML structure.
+- Include a `<canvas id="bg">` element where the 3D scene will be rendered.
+- Link the `style.css` file.
+- Import the Three.js library using a CDN (`https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js`).
+- Load the `script.js` file at the end of the body with the `type="module"` attribute.
+
+**`style.css`:**
+- Make the canvas element fill the entire browser window.
+- Remove any default margin and padding from the body.
+
+**`script.js`:**
+1.  **Scene Setup:**
+    - Initialize the scene, a perspective camera, and the WebGL renderer.
+    - Set the renderer to the size of the window and append it to the canvas element in `index.html`.
+    - Handle window resizing to adjust the camera and renderer.
+
+2.  **Lighting:**
+    - Add `AmbientLight` for overall soft lighting.
+    - Add `DirectionalLight` to simulate sunlight and create shadows.
+
+3.  **Environment:**
+    - Create a large green plane (`PlaneGeometry`) for the ground.
+    - Set the scene's background to a light blue color to represent the sky.
+
+4.  **Airplane Model (Cartoon Style):**
+    - Do not load an external model. Create the airplane by combining several `THREE.Mesh` objects.
+    - **Body:** Use a red `BoxGeometry` for the main fuselage.
+    - **Wings:** Use two white, flattened `BoxGeometry` objects for the wings, attached to the sides of the body.
+    - **Tail:** Use a smaller white `BoxGeometry` for the tail fin.
+    - **Group:** Combine all parts into a single `THREE.Group` to represent the airplane. This makes it easier to move and rotate the entire plane.
+    - Position the airplane group at the center of the scene.
+
+5.  **Controls:**
+    - The airplane should have a constant forward speed.
+    - Listen for `keydown` and `keyup` events for the arrow keys (`ArrowUp`, `ArrowDown`, `ArrowLeft`, `ArrowRight`).
+    - **ArrowUp:** Pitch the airplane's nose down.
+    - **ArrowDown:** Pitch the airplane's nose up.
+    - **ArrowLeft:** Roll the airplane to the left.
+    - **ArrowRight:** Roll the airplane to the right.
+    - Implement smooth rotation for a better flying experience.
+
+6.  **Camera:**
+    - The camera should be positioned behind and slightly above the airplane.
+    - Use the `lookAt()` method to make the camera always face the airplane.
+    - As the airplane moves, update the camera's position to maintain a consistent distance and angle.
+
+7.  **Animation Loop:**
+    - Create an `animate` function that runs on every frame using `requestAnimationFrame`.
+    - Inside the loop:
+        - Update the airplane's position based on its forward speed and current rotation.
+        - Update the airplane's rotation based on which arrow keys are currently pressed.
+        - Update the camera's position to follow the airplane.
+        - Render the scene from the camera's perspective.
+
+Please provide the complete and runnable code for all three files (`index.html`, `style.css`, `script.js`).
